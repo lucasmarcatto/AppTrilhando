@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "905857788167",
+    "project_id": "apptrilhando",
+    "storage_bucket": "apptrilhando.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:905857788167:android:cc8e577c4fac70681f7da2",
+        "android_client_info": {
+          "package_name": "com.trilhando"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAmY1XUrxMgPD6Xz2SCxItttMHSCVM17o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
