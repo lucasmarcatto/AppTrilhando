@@ -7,6 +7,14 @@
     android:gravity="center">
 
     <EditText
+        android:id="@+id/etNome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nome completo"
+        android:inputType="textPersonName"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
         android:id="@+id/etEmailReg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

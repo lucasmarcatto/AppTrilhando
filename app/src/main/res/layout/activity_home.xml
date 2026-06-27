@@ -7,11 +7,21 @@
     android:gravity="center">
 
     <TextView
+        android:id="@+id/tvNomeUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bem-vindo!"
+        android:text="Carregando..."
         android:textSize="24sp"
         android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/tvEmailUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="email@exemplo.com"
+        android:textSize="16sp"
+        android:textColor="#666"
         android:layout_marginBottom="32dp" />
 
     <Button
