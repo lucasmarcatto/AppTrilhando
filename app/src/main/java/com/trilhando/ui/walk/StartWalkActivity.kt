@@ -1,17 +1,20 @@
 package com.trilhando.ui.walk
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.trilhando.R
 import com.trilhando.helper.LocationHelper
 import com.trilhando.helper.PermissionHelper
 import com.trilhando.helper.StepCounterHelper
+import com.trilhando.ui.camera.CameraActivity
 
 class StartWalkActivity : AppCompatActivity() {
 
@@ -24,6 +27,7 @@ class StartWalkActivity : AppCompatActivity() {
     private lateinit var btnParar: Button
     private lateinit var btnFinalizar: Button
     private lateinit var btnAtualizarLocalizacao: Button
+    private lateinit var btnTirarFoto: Button
     private lateinit var btnVoltar: Button
 
     // Helpers (baixo acoplamento!)
@@ -35,6 +39,20 @@ class StartWalkActivity : AppCompatActivity() {
     private var currentLatitude = 0.0
     private var currentLongitude = 0.0
     private var currentSteps = 0
+    private var fotoUrl = ""
+
+    // Recebe a URL da foto quando CameraActivity finaliza
+    private val cameraLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val url = result.data?.getStringExtra(CameraActivity.EXTRA_FOTO_URL) ?: ""
+            if (url.isNotEmpty()) {
+                fotoUrl = url
+                Toast.makeText(this, "📷 Foto vinculada à caminhada!", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     companion object {
         private const val REQUEST_PERMISSION_CODE = 1001
@@ -61,6 +79,7 @@ class StartWalkActivity : AppCompatActivity() {
         btnParar = findViewById(R.id.btnParar)
         btnFinalizar = findViewById(R.id.btnFinalizarCaminhada)
         btnAtualizarLocalizacao = findViewById(R.id.btnAtualizarLocalizacao)
+        btnTirarFoto = findViewById(R.id.btnTirarFoto)
         btnVoltar = findViewById(R.id.btnVoltarHome)
 
         //estado inicial dos botões de Parar e Finalizar caminhada
@@ -107,6 +126,10 @@ class StartWalkActivity : AppCompatActivity() {
 
         btnFinalizar.setOnClickListener {
             finalizarCaminhada()
+        }
+
+        btnTirarFoto.setOnClickListener {
+            cameraLauncher.launch(Intent(this, CameraActivity::class.java))
         }
 
         btnAtualizarLocalizacao.setOnClickListener {
@@ -221,6 +244,7 @@ class StartWalkActivity : AppCompatActivity() {
         currentSteps = 0
         currentLatitude = 0.0
         currentLongitude = 0.0
+        fotoUrl = ""
 
         tvPassos.text = "Passos: 0"
         tvStatus.text = "⏹️ Parado"
