@@ -125,6 +125,14 @@
             android:backgroundTint="#2196F3" />
 
         <Button
+            android:id="@+id/btnGravarAudio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="🎤 Gravar Áudio"
+            android:backgroundTint="#673AB7" />
+
+        <Button
             android:id="@+id/btnFinalizarCaminhada"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -14,6 +14,7 @@ import com.trilhando.R
 import com.trilhando.helper.LocationHelper
 import com.trilhando.helper.PermissionHelper
 import com.trilhando.helper.StepCounterHelper
+import com.trilhando.ui.audio.AudioRecordActivity
 import com.trilhando.ui.camera.CameraActivity
 
 class StartWalkActivity : AppCompatActivity() {
@@ -28,6 +29,7 @@ class StartWalkActivity : AppCompatActivity() {
     private lateinit var btnFinalizar: Button
     private lateinit var btnAtualizarLocalizacao: Button
     private lateinit var btnTirarFoto: Button
+    private lateinit var btnGravarAudio: Button
     private lateinit var btnVoltar: Button
 
     // Helpers (baixo acoplamento!)
@@ -40,6 +42,8 @@ class StartWalkActivity : AppCompatActivity() {
     private var currentLongitude = 0.0
     private var currentSteps = 0
     private var fotoUrl = ""
+    private var audioUrl = ""
+    private var descricao = ""
 
     // Recebe a URL da foto quando CameraActivity finaliza
     private val cameraLauncher = registerForActivityResult(
@@ -50,6 +54,21 @@ class StartWalkActivity : AppCompatActivity() {
             if (url.isNotEmpty()) {
                 fotoUrl = url
                 Toast.makeText(this, "📷 Foto vinculada à caminhada!", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // Recebe a URL do áudio e a descrição quando AudioRecordActivity finaliza
+    private val audioLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val url = result.data?.getStringExtra(AudioRecordActivity.EXTRA_AUDIO_URL) ?: ""
+            val desc = result.data?.getStringExtra(AudioRecordActivity.EXTRA_DESCRICAO) ?: ""
+            if (url.isNotEmpty()) {
+                audioUrl = url
+                if (desc.isNotEmpty()) descricao = desc
+                Toast.makeText(this, "🎤 Áudio vinculado à caminhada!", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -80,6 +99,7 @@ class StartWalkActivity : AppCompatActivity() {
         btnFinalizar = findViewById(R.id.btnFinalizarCaminhada)
         btnAtualizarLocalizacao = findViewById(R.id.btnAtualizarLocalizacao)
         btnTirarFoto = findViewById(R.id.btnTirarFoto)
+        btnGravarAudio = findViewById(R.id.btnGravarAudio)
         btnVoltar = findViewById(R.id.btnVoltarHome)
 
         //estado inicial dos botões de Parar e Finalizar caminhada
@@ -130,6 +150,10 @@ class StartWalkActivity : AppCompatActivity() {
 
         btnTirarFoto.setOnClickListener {
             cameraLauncher.launch(Intent(this, CameraActivity::class.java))
+        }
+
+        btnGravarAudio.setOnClickListener {
+            audioLauncher.launch(Intent(this, AudioRecordActivity::class.java))
         }
 
         btnAtualizarLocalizacao.setOnClickListener {
@@ -245,6 +269,8 @@ class StartWalkActivity : AppCompatActivity() {
         currentLatitude = 0.0
         currentLongitude = 0.0
         fotoUrl = ""
+        audioUrl = ""
+        descricao = ""
 
         tvPassos.text = "Passos: 0"
         tvStatus.text = "⏹️ Parado"
