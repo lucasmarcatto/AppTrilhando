@@ -25,7 +25,8 @@ object PermissionHelper { //gerenciar permissoes
         Manifest.permission.ACCESS_COARSE_LOCATION,
         Manifest.permission.ACTIVITY_RECOGNITION,
         Manifest.permission.CAMERA,
-        Manifest.permission.RECORD_AUDIO
+        Manifest.permission.RECORD_AUDIO,
+        Manifest.permission.POST_NOTIFICATIONS
     )
 
 

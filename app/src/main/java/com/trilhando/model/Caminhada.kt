@@ -10,7 +10,6 @@ data class Caminhada(
     val latitude: Double = 0.0,          // localização final
     val longitude: Double = 0.0,
     val quantidadePassos: Int = 0,       // contagem de passos
-    val fotoUrl: String = "",            // URL da foto no Firebase
-    val audioUrl: String = "",           // URL do audio no Firebase
+    val fotoBase64: String = "",            // URL da foto no Firebase
     val dataCriacao: Timestamp = Timestamp.now() // data/hora da caminhada
 )

@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.trilhando.R
 import com.trilhando.auth.FirebaseAuthHelper
+import com.trilhando.helper.AlarmScheduler
 import com.trilhando.ui.home.HomeActivity
 import com.trilhando.ui.register.RegisterActivity
 
@@ -60,6 +61,7 @@ class LoginActivity : AppCompatActivity() {
         FirebaseAuthHelper.signIn(email, senha) { sucesso, mensagem -> //chama o helper do firebase
             if (sucesso) {
                 irParaHome()
+                AlarmScheduler.agendarLembreteDiario(this)
             } else {
                 Toast.makeText(this, "Erro no login: $mensagem", Toast.LENGTH_LONG).show()
             }

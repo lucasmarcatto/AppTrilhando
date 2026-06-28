@@ -8,14 +8,23 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.google.firebase.Timestamp
 import com.trilhando.R
+import com.trilhando.auth.FirebaseAuthHelper
 import com.trilhando.helper.LocationHelper
 import com.trilhando.helper.PermissionHelper
 import com.trilhando.helper.StepCounterHelper
+import com.trilhando.model.Caminhada
+import com.trilhando.repository.WalkRepository
 import com.trilhando.ui.audio.AudioRecordActivity
 import com.trilhando.ui.camera.CameraActivity
+import com.trilhando.ui.home.HomeActivity
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class StartWalkActivity : AppCompatActivity() {
 
@@ -41,8 +50,7 @@ class StartWalkActivity : AppCompatActivity() {
     private var currentLatitude = 0.0
     private var currentLongitude = 0.0
     private var currentSteps = 0
-    private var fotoUrl = ""
-    private var audioUrl = ""
+    private var fotoBase64 = ""
     private var descricao = ""
 
     // Recebe a URL da foto quando CameraActivity finaliza
@@ -50,10 +58,10 @@ class StartWalkActivity : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
-            val url = result.data?.getStringExtra(CameraActivity.EXTRA_FOTO_URL) ?: ""
-            if (url.isNotEmpty()) {
-                fotoUrl = url
-                Toast.makeText(this, "📷 Foto vinculada à caminhada!", Toast.LENGTH_SHORT).show()
+            val base64 = result.data?.getStringExtra(CameraActivity.EXTRA_FOTO_BASE64) ?: ""
+            if (base64.isNotEmpty()) {
+                fotoBase64 = base64
+                Toast.makeText(this, "📷 Foto capturada!", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -63,12 +71,10 @@ class StartWalkActivity : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
-            val url = result.data?.getStringExtra(AudioRecordActivity.EXTRA_AUDIO_URL) ?: ""
             val desc = result.data?.getStringExtra(AudioRecordActivity.EXTRA_DESCRICAO) ?: ""
-            if (url.isNotEmpty()) {
-                audioUrl = url
-                if (desc.isNotEmpty()) descricao = desc
-                Toast.makeText(this, "🎤 Áudio vinculado à caminhada!", Toast.LENGTH_SHORT).show()
+            if (desc.isNotEmpty()) {
+                descricao = desc
+                Toast.makeText(this, "📝 Descrição: $desc", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -77,6 +83,7 @@ class StartWalkActivity : AppCompatActivity() {
         private const val REQUEST_PERMISSION_CODE = 1001
     }
 
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_walk)
@@ -135,6 +142,7 @@ class StartWalkActivity : AppCompatActivity() {
         )
     }
 
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     private fun setupListeners() {
         btnIniciar.setOnClickListener {
             iniciarCaminhada()
@@ -174,6 +182,7 @@ class StartWalkActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     private fun verificarPermissoes() {
         if (!PermissionHelper.hasAllPermissions(this)) {
             //solicita permissões
@@ -196,6 +205,7 @@ class StartWalkActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     private fun iniciarCaminhada() {
         if (!PermissionHelper.hasAllPermissions(this)) {
             verificarPermissoes()
@@ -240,27 +250,44 @@ class StartWalkActivity : AppCompatActivity() {
         Toast.makeText(this, "Caminhada pausada", Toast.LENGTH_SHORT).show()
     }
 
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     private fun finalizarCaminhada() {
         if (isWalking) {
             Toast.makeText(this, "Pare a caminhada antes de finalizar", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // pega localização final
         locationHelper.getCurrentLocation()
 
-        // mostra resumo
-        val mensagem = """ 
-            🏁 Caminhada finalizada!
-            Passos: $currentSteps
-            Localização: %.6f, %.6f
-        """.trimIndent().format(currentLatitude, currentLongitude)
+        val user = FirebaseAuthHelper.getCurrentUser()
+        val userId = user?.email ?: run {
+            Toast.makeText(this, "Usuário não logado", Toast.LENGTH_SHORT).show()
+            return
+        }
 
-        Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show()
+        // Cria a caminhada com Base64 e descrição
+        val caminhada = Caminhada(
+            userId = userId,
+            titulo = "Caminhada ${SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date())}",
+            descricao = if (descricao.isNotEmpty()) descricao else "Sem descrição",
+            latitude = currentLatitude,
+            longitude = currentLongitude,
+            quantidadePassos = currentSteps,
+            fotoBase64 = fotoBase64,
+            dataCriacao = Timestamp.now()
+        )
 
-        // TODO salvar caminhada no Firestore
-        //por enquanto só reseta
-        resetarEstado()
+        WalkRepository.salvarCaminhada(caminhada) { sucesso, id ->
+            runOnUiThread {
+                if (sucesso) {
+                    Toast.makeText(this, "✅ Caminhada salva!", Toast.LENGTH_LONG).show()
+                    startActivity(Intent(this, HomeActivity::class.java))
+                    finish()
+                } else {
+                    Toast.makeText(this, "Erro ao salvar: $id", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     private fun resetarEstado() {
@@ -268,8 +295,7 @@ class StartWalkActivity : AppCompatActivity() {
         currentSteps = 0
         currentLatitude = 0.0
         currentLongitude = 0.0
-        fotoUrl = ""
-        audioUrl = ""
+        fotoBase64 = ""
         descricao = ""
 
         tvPassos.text = "Passos: 0"
@@ -284,6 +310,7 @@ class StartWalkActivity : AppCompatActivity() {
         stepCounterHelper.stop()
     }
 
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
