@@ -2,76 +2,99 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="#F4F8F5">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:padding="24dp">
 
+        <!-- Título -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="📷 Foto da Caminhada"
-            android:textSize="24sp"
+            android:text="Foto da Caminhada"
+            android:textSize="28sp"
             android:textStyle="bold"
+            android:textColor="#1B5E20"
+            android:layout_gravity="center"
             android:layout_marginBottom="24dp" />
 
-        <ImageView
-            android:id="@+id/ivPreview"
-            android:layout_width="match_parent"
-            android:layout_height="280dp"
-            android:scaleType="centerCrop"
-            android:background="#EEEEEE"
-            android:contentDescription="Preview da foto"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:id="@+id/tvPreviewHint"
+        <!-- Card da foto -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nenhuma foto tirada ainda"
-            android:textSize="14sp"
-            android:textColor="#888"
-            android:gravity="center"
-            android:layout_marginBottom="24dp" />
+            android:orientation="vertical"
+            android:background="@drawable/bg_card"
+            android:padding="16dp"
+            android:layout_marginBottom="20dp">
 
+            <ImageView
+                android:id="@+id/ivPreview"
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:background="#EAEAEA"
+                android:scaleType="centerCrop"
+                android:contentDescription="Preview da foto" />
+
+            <TextView
+                android:id="@+id/tvPreviewHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nenhuma foto tirada ainda"
+                android:textColor="#888888"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_marginTop="12dp" />
+
+        </LinearLayout>
+
+        <!-- Botão tirar foto -->
         <Button
             android:id="@+id/btnTirarFoto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="📷 Tirar Foto"
-            android:backgroundTint="#2196F3"
-            android:layout_marginBottom="8dp" />
+            android:layout_height="56dp"
+            android:text="Tirar Foto"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:backgroundTint="#1976D2"
+            android:layout_marginBottom="12dp" />
 
+        <!-- Botão salvar -->
         <Button
             android:id="@+id/btnSalvar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="☁️ Salvar no Firebase"
-            android:backgroundTint="#4CAF50"
+            android:layout_height="56dp"
+            android:text="Salvar no Firebase"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:backgroundTint="#43A047"
             android:enabled="false"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="12dp" />
 
+        <!-- Status -->
         <TextView
             android:id="@+id/tvStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""
             android:textSize="14sp"
-            android:textColor="#666"
+            android:textColor="#666666"
             android:gravity="center"
-            android:layout_marginBottom="16dp" />
+            android:padding="8dp"
+            android:layout_marginBottom="20dp" />
 
+        <!-- Voltar -->
         <Button
             android:id="@+id/btnVoltar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="← Voltar"
-            style="?android:attr/borderlessButtonStyle"
-            android:textColor="#666" />
+            android:text="Voltar"
+            android:textColor="#666666"
+            android:background="@android:color/transparent" />
 
     </LinearLayout>
+
 </ScrollView>

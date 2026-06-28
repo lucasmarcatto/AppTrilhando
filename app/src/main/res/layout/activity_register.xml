@@ -1,53 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center">
+    android:fillViewport="true"
+    android:background="#F4F8F5">
 
-    <EditText
-        android:id="@+id/etNome"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nome completo"
-        android:inputType="textPersonName"
-        android:layout_marginBottom="16dp" />
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="32dp">
 
-    <EditText
-        android:id="@+id/etEmailReg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="E-mail"
-        android:inputType="textEmailAddress"
-        android:layout_marginBottom="16dp" />
+        <!-- Logo -->
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp" />
 
-    <EditText
-        android:id="@+id/etSenhaReg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Senha"
-        android:inputType="textPassword"
-        android:layout_marginBottom="16dp" />
+        <!-- Título -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Criar Conta"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#1B5E20"
+            android:layout_marginBottom="32dp" />
 
-    <EditText
-        android:id="@+id/etConfirmarSenha"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Confirmar senha"
-        android:inputType="textPassword"
-        android:layout_marginBottom="24dp" />
+        <!-- Nome -->
+        <EditText
+            android:id="@+id/etNome"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:hint="Nome completo"
+            android:inputType="textPersonName"
+            android:padding="16dp"
+            android:background="@drawable/bg_edittext"
+            android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btnRegistrar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Registrar" />
+        <!-- E-mail -->
+        <EditText
+            android:id="@+id/etEmailReg"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:hint="E-mail"
+            android:inputType="textEmailAddress"
+            android:padding="16dp"
+            android:background="@drawable/bg_edittext"
+            android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btnVoltarLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Voltar ao Login"
-        style="?android:attr/borderlessButtonStyle" />
-</LinearLayout>
+        <!-- Senha -->
+        <EditText
+            android:id="@+id/etSenhaReg"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:hint="Senha"
+            android:inputType="textPassword"
+            android:padding="16dp"
+            android:background="@drawable/bg_edittext"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Confirmar senha -->
+        <EditText
+            android:id="@+id/etConfirmarSenha"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:hint="Confirmar senha"
+            android:inputType="textPassword"
+            android:padding="16dp"
+            android:background="@drawable/bg_edittext"
+            android:layout_marginBottom="28dp" />
+
+        <!-- Botão cadastrar -->
+        <Button
+            android:id="@+id/btnRegistrar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Cadastrar"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#43A047" />
+
+        <!-- Link login -->
+        <Button
+            android:id="@+id/btnVoltarLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Já tem conta? Faça login"
+            android:textColor="#2E7D32"
+            android:textStyle="bold"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+
+</ScrollView>

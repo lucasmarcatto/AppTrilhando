@@ -2,114 +2,146 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="#F4F8F5">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:padding="24dp">
 
+        <!-- Título -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="🎤 Áudio da Caminhada"
-            android:textSize="24sp"
+            android:text="Áudio da Caminhada"
+            android:textSize="28sp"
             android:textStyle="bold"
+            android:textColor="#1B5E20"
+            android:layout_gravity="center"
             android:layout_marginBottom="24dp" />
 
+        <!-- Status -->
         <TextView
             android:id="@+id/tvStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Pronto para gravar"
             android:textSize="16sp"
-            android:textColor="#666"
-            android:gravity="center"
-            android:layout_marginBottom="24dp" />
-
-        <Button
-            android:id="@+id/btnGravar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="⏺️ Gravar"
-            android:backgroundTint="#F44336"
-            android:layout_marginBottom="8dp" />
-
-        <Button
-            android:id="@+id/btnParar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="⏹️ Parar"
-            android:backgroundTint="#9E9E9E"
-            android:enabled="false"
-            android:layout_marginBottom="8dp" />
-
-        <Button
-            android:id="@+id/btnReproduzir"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="▶️ Reproduzir"
-            android:backgroundTint="#2196F3"
-            android:enabled="false"
-            android:layout_marginBottom="16dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DDD"
-            android:layout_marginVertical="8dp" />
-
-        <!-- Reconhecimento de voz -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🗣️ Descrição por voz"
-            android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            android:textColor="#666666"
+            android:gravity="center"
+            android:layout_marginBottom="20dp" />
 
-        <EditText
-            android:id="@+id/etDescricao"
+        <!-- Card gravação -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Toque em Falar e descreva a caminhada"
-            android:minLines="2"
-            android:gravity="top"
-            android:inputType="textMultiLine"
-            android:layout_marginBottom="8dp" />
+            android:orientation="vertical"
+            android:background="@drawable/bg_card"
+            android:padding="20dp"
+            android:layout_marginBottom="20dp">
 
-        <Button
-            android:id="@+id/btnFalar"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gravação"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="#1B5E20"
+                android:layout_marginBottom="16dp" />
+
+            <Button
+                android:id="@+id/btnGravar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Gravar"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#E53935"
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/btnParar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Parar"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#757575"
+                android:enabled="false"
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/btnReproduzir"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Reproduzir"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#1976D2"
+                android:enabled="false" />
+
+        </LinearLayout>
+
+        <!-- Card descrição -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🎙️ Falar"
-            android:backgroundTint="#673AB7"
-            android:layout_marginBottom="16dp" />
+            android:orientation="vertical"
+            android:background="@drawable/bg_card"
+            android:padding="20dp"
+            android:layout_marginBottom="20dp">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DDD"
-            android:layout_marginVertical="8dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Descrição por voz"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="#1B5E20"
+                android:layout_marginBottom="12dp" />
 
+            <EditText
+                android:id="@+id/etDescricao"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:hint="Toque em Falar e descreva a caminhada"
+                android:gravity="top"
+                android:padding="16dp"
+                android:inputType="textMultiLine"
+                android:background="@drawable/bg_edittext"
+                android:minLines="4"
+                android:layout_marginBottom="12dp" />
+
+            <Button
+                android:id="@+id/btnFalar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Falar"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#7B1FA2" />
+
+        </LinearLayout>
+
+        <!-- Salvar -->
         <Button
             android:id="@+id/btnSalvar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="☁️ Salvar no Firebase"
-            android:backgroundTint="#4CAF50"
+            android:layout_height="56dp"
+            android:text="Salvar no Firebase"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#43A047"
             android:enabled="false"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="12dp" />
 
+        <!-- Voltar -->
         <Button
             android:id="@+id/btnVoltar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="← Voltar"
-            style="?android:attr/borderlessButtonStyle"
-            android:textColor="#666" />
+            android:text="Voltar"
+            android:textColor="#666666"
+            android:background="@android:color/transparent" />
 
     </LinearLayout>
+
 </ScrollView>
