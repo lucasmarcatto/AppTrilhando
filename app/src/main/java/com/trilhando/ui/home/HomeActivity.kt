@@ -4,20 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.trilhando.R
 import com.trilhando.auth.FirebaseAuthHelper
-import com.trilhando.repository.UserRepository
-import com.trilhando.repository.WalkRepository
+import com.trilhando.DAO.UserDAO
+import com.trilhando.DAO.WalkDAO
 import com.trilhando.ui.historico.HistoryActivity
 import com.trilhando.ui.login.LoginActivity
 import com.trilhando.ui.walk.StartWalkActivity
-import android.Manifest
-import android.content.pm.PackageManager
-import android.os.Build
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.trilhando.helper.PermissionHelper
 
 class HomeActivity : AppCompatActivity() {
@@ -74,7 +68,7 @@ class HomeActivity : AppCompatActivity() {
         tvEmail.text = email
 
         // Busca perfil
-        UserRepository.buscarUsuarioPorEmail(email) { usuario, erro ->
+        UserDAO.buscarUsuarioPorEmail(email) { usuario, erro ->
             if (usuario != null) {
                 tvNome.text = "Olá, ${usuario.nome}!"
             } else {
@@ -87,7 +81,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun carregarEstatisticas(userId: String) {
-        WalkRepository.buscarCaminhadasPorUsuario(userId) { caminhadas, erro ->
+        WalkDAO.buscarCaminhadasPorUsuario(userId) { caminhadas, erro ->
             runOnUiThread {
                 if (caminhadas != null) {
                     val totalPassos = caminhadas.sumOf { it.quantidadePassos }

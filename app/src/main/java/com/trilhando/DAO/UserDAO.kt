@@ -1,10 +1,10 @@
-package com.trilhando.repository
+package com.trilhando.DAO
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.trilhando.model.Usuario
 
-object UserRepository {
+object UserDAO {
 
     private val db = FirebaseFirestore.getInstance() //referência à coleção no Firestore
     private val TAG = "UserRepository"

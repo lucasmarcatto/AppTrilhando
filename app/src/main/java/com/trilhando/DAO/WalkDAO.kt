@@ -1,9 +1,9 @@
-package com.trilhando.repository
+package com.trilhando.DAO
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.trilhando.model.Caminhada
 
-object WalkRepository {
+object WalkDAO {
 
     private val db = FirebaseFirestore.getInstance()
 

@@ -17,7 +17,7 @@ class CameraActivity : AppCompatActivity(), CameraHelper.Callback {
 
     companion object {
         const val EXTRA_CAMINHADA_ID = "caminhada_id"
-        const val EXTRA_FOTO_BASE64 = "foto_base64"   // ← mudamos o nome
+        const val EXTRA_FOTO_BASE64 = "foto_base64"
     }
 
     private lateinit var ivPreview: ImageView
@@ -74,7 +74,7 @@ class CameraActivity : AppCompatActivity(), CameraHelper.Callback {
 
     // Callback do CameraHelper
     override fun onFotoRecebida(bitmap: Bitmap) {
-        // Reduzimos a imagem para evitar Base64 muito grande (opcional)
+        //imagem reduzida para evitar Base64 muito grande
         val scaled = Bitmap.createScaledBitmap(bitmap, 800, 800, true)
         bitmapFoto = scaled
         ivPreview.setImageBitmap(scaled)

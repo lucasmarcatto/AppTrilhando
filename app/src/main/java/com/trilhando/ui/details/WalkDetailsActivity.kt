@@ -72,7 +72,7 @@ class WalkDetailsActivity : AppCompatActivity() {
             }
     }
 
-    private fun exibirDados(walk: Caminhada) {  // ← recebe a caminhada como parâmetro
+    private fun exibirDados(walk: Caminhada) {  //recebe a caminhada como parâmetro
         val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
         tvTitulo.text = walk.titulo
         tvData.text = dateFormat.format(walk.dataCriacao.toDate())

@@ -32,7 +32,6 @@ class AudioRecordActivity : AppCompatActivity() {
         initViews()
         setupListeners()
 
-        // Verifica permissão do microfone
         verificarPermissaoMicrofone()
 
         speechHelper = SpeechHelper(

@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 
 object PermissionHelper { //gerenciar permissoes
 
-    // Lista de permissões necessárias para a Sprint 4
+    //lista de permissões necessárias para a Sprint 4
     val PERMISSOES_LOCALIZACAO = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION

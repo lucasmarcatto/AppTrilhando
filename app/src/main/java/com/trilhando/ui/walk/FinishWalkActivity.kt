@@ -13,7 +13,7 @@ import com.trilhando.auth.FirebaseAuthHelper
 import com.trilhando.helper.PermissionHelper
 import com.trilhando.helper.SpeechHelper
 import com.trilhando.model.Caminhada
-import com.trilhando.repository.WalkRepository
+import com.trilhando.DAO.WalkDAO
 import com.trilhando.ui.home.HomeActivity
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -39,7 +39,7 @@ class FinishWalkActivity : AppCompatActivity() {
     private lateinit var btnSalvar: Button
     private lateinit var btnDescartar: Button
 
-    // Helper de reconhecimento de voz (baixo acoplamento)
+    // Helper de reconhecimento de voz
     private lateinit var speechHelper: SpeechHelper
 
     // Dados recebidos da StartWalkActivity
@@ -58,7 +58,6 @@ class FinishWalkActivity : AppCompatActivity() {
         initSpeechHelper()
         setupListeners()
 
-        // Garante a permissão de microfone para a descrição por voz
         verificarPermissaoMicrofone()
     }
 
@@ -165,7 +164,7 @@ class FinishWalkActivity : AppCompatActivity() {
             dataCriacao = Timestamp.now()
         )
 
-        WalkRepository.salvarCaminhada(caminhada) { sucesso, id ->
+        WalkDAO.salvarCaminhada(caminhada) { sucesso, id ->
             runOnUiThread {
                 if (sucesso) {
                     Toast.makeText(this, "✅ Caminhada salva!", Toast.LENGTH_LONG).show()

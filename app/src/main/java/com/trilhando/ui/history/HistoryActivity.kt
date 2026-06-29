@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.trilhando.R
 import com.trilhando.adapter.WalkAdapter
 import com.trilhando.auth.FirebaseAuthHelper
-import com.trilhando.repository.WalkRepository
+import com.trilhando.DAO.WalkDAO
 import com.trilhando.ui.details.WalkDetailsActivity
 
 class HistoryActivity : AppCompatActivity() {
@@ -45,7 +45,7 @@ class HistoryActivity : AppCompatActivity() {
         val user = FirebaseAuthHelper.getCurrentUser()
         val userId = user?.email ?: return
 
-        WalkRepository.buscarCaminhadasPorUsuario(userId) { caminhadas, erro ->
+        WalkDAO.buscarCaminhadasPorUsuario(userId) { caminhadas, erro ->
             runOnUiThread {
                 if (caminhadas != null) {
                     adapter.updateList(caminhadas)

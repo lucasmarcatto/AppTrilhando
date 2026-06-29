@@ -9,9 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.trilhando.R
 import com.trilhando.auth.FirebaseAuthHelper
 import com.trilhando.model.Usuario
-import com.trilhando.repository.UserRepository
+import com.trilhando.DAO.UserDAO
 import com.trilhando.ui.home.HomeActivity
-import com.trilhando.ui.login.LoginActivity
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -74,7 +73,7 @@ class RegisterActivity : AppCompatActivity() {
                     fotoPerfil = "" // por enquanto vazio, depois adicionamos foto
                 )
 
-                UserRepository.salvarUsuario(usuario) { salvou, erro ->
+                UserDAO.salvarUsuario(usuario) { salvou, erro ->
                     if (salvou) {
                         Toast.makeText(this, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, HomeActivity::class.java)) //direciona para Home após cadastro e login automatico

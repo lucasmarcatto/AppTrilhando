@@ -28,10 +28,8 @@ class StepCounterHelper(
         private const val TAG = "StepCounterHelper"
     }
 
-    /**
-     * Inicia a escuta do sensor de passos.
-     * Retorna true se o sensor estiver disponível.
-     */
+    //inicia a escuta do sensor de passos
+    //retorna true se o sensor estiver disponível
     fun start(): Boolean {
         stepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
 

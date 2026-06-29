@@ -11,10 +11,6 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 
-/**
- * Helper para capturar localização.
- * Baixo acoplamento: a Activity só precisa chamar getLocation().
- */
 class LocationHelper(
     private val context: Context,
     private val onLocationReceived: (Double, Double) -> Unit,
@@ -28,7 +24,7 @@ class LocationHelper(
         private const val TAG = "LocationHelper"
     }
 
-    fun hasLocationPermission(): Boolean { //Verifica se as permissões de localização estão concedidas.
+    fun hasLocationPermission(): Boolean { //Verifica se as permissões de localização estão concedidas
         return ActivityCompat.checkSelfPermission(
             context,
             Manifest.permission.ACCESS_FINE_LOCATION

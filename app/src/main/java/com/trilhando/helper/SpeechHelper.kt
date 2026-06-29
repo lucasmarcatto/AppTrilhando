@@ -8,13 +8,8 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.util.Log
 
-/**
- * Helper para reconhecimento de voz (voz -> texto).
- * Baixo acoplamento: a Activity só chama ouvir() e recebe o texto pelo callback.
- *
- * Observação: o SpeechRecognizer NÃO funciona em emulador, apenas em dispositivo físico.
- */
-class SpeechHelper(
+
+class SpeechHelper( //reconhecimento de voz (voz p/ texto).
     private val context: Context,
     private val onResultado: (String) -> Unit,
     private val onErro: (String) -> Unit
@@ -28,7 +23,7 @@ class SpeechHelper(
 
     fun estaDisponivel(): Boolean = SpeechRecognizer.isRecognitionAvailable(context)
 
-    /** Inicia a escuta. O texto reconhecido volta em onResultado. */
+    //Inicia a escuta. o texto reconhecido volta em onResultado
     fun ouvir() {
         if (!estaDisponivel()) {
             onErro("Reconhecimento de voz indisponível neste dispositivo")

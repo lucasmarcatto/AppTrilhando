@@ -31,7 +31,7 @@ class CameraHelper(
                 }
 
                 bitmap?.let {
-                    // Cria uma cópia mutável (como no PDF)
+                    //cria uma cópia mutavel
                     val copia = it.copy(Bitmap.Config.ARGB_8888, true)
                     callback.onFotoRecebida(copia)
                 }
