@@ -1,3 +1,5 @@
+
+
 # 🥾 Trilhando
 
 Aplicativo Android de registro de caminhadas — uma espécie de diário/Strava simplificado.
@@ -133,7 +135,7 @@ As fotos são armazenadas como **string Base64** dentro do documento da caminhad
 ## 🎥 Vídeos de Demonstração
 
 ### Demonstração curta
-![Demonstração do App](https://raw.githubusercontent.com/lucasmarcatto/AppTrilhando/master/videoTrilhando.gif)
+<img width="400" height="711" alt="video Trilhando (1)" src="https://github.com/user-attachments/assets/a9efb563-d28b-4e9a-8228-8d3f2c4c1adc" />
 
 ---
 
