@@ -133,7 +133,7 @@ As fotos são armazenadas como **string Base64** dentro do documento da caminhad
 ## 🎥 Vídeos de Demonstração
 
 ### Demonstração curta
-![Demonstração do App](videoTrilhando.gif)
+![Demonstração do App](https://raw.githubusercontent.com/lucasmarcatto/AppTrilhando/master/videoTrilhando.gif)
 
 ---
 
