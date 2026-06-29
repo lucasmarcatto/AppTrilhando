@@ -129,6 +129,11 @@ Declaradas em `AndroidManifest.xml` e solicitadas em tempo de execução:
 | `caminhadas` | ID automático | `userId`, `titulo`, `descricao`, `latitude`, `longitude`, `quantidadePassos`, `fotoBase64`, `dataCriacao` |
 
 As fotos são armazenadas como **string Base64** dentro do documento da caminhada.
+---
+## 🎥 Vídeos de Demonstração
+
+### Demonstração curta
+
 
 ---
 
