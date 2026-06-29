@@ -12,7 +12,6 @@ import com.trilhando.repository.UserRepository
 import com.trilhando.repository.WalkRepository
 import com.trilhando.ui.historico.HistoryActivity
 import com.trilhando.ui.login.LoginActivity
-import com.trilhando.ui.settings.SettingsActivity
 import com.trilhando.ui.walk.StartWalkActivity
 import android.Manifest
 import android.content.pm.PackageManager
@@ -27,7 +26,6 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var tvEmail: TextView
     private lateinit var btnIniciar: Button
     private lateinit var btnHistorico: Button
-    private lateinit var btnConfig: Button
     private lateinit var btnLogout: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +42,6 @@ class HomeActivity : AppCompatActivity() {
         tvEmail = findViewById(R.id.tvEmailUsuario)
         btnIniciar = findViewById(R.id.btnIniciarCaminhada)
         btnHistorico = findViewById(R.id.btnHistorico)
-        btnConfig = findViewById(R.id.btnConfiguracoes)
         btnLogout = findViewById(R.id.btnLogout)
 
         // Carregar dados do usuário
@@ -56,10 +53,6 @@ class HomeActivity : AppCompatActivity() {
 
         btnHistorico.setOnClickListener {
             startActivity(Intent(this, HistoryActivity::class.java))
-        }
-
-        btnConfig.setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
         }
 
         btnLogout.setOnClickListener {

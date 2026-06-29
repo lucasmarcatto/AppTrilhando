@@ -11,20 +11,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.google.firebase.Timestamp
 import com.trilhando.R
-import com.trilhando.auth.FirebaseAuthHelper
 import com.trilhando.helper.LocationHelper
 import com.trilhando.helper.PermissionHelper
 import com.trilhando.helper.StepCounterHelper
-import com.trilhando.model.Caminhada
-import com.trilhando.repository.WalkRepository
-import com.trilhando.ui.audio.AudioRecordActivity
 import com.trilhando.ui.camera.CameraActivity
-import com.trilhando.ui.home.HomeActivity
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class StartWalkActivity : AppCompatActivity() {
 
@@ -38,7 +29,6 @@ class StartWalkActivity : AppCompatActivity() {
     private lateinit var btnFinalizar: Button
     private lateinit var btnAtualizarLocalizacao: Button
     private lateinit var btnTirarFoto: Button
-    private lateinit var btnGravarAudio: Button
     private lateinit var btnVoltar: Button
 
     // Helpers (baixo acoplamento!)
@@ -51,7 +41,6 @@ class StartWalkActivity : AppCompatActivity() {
     private var currentLongitude = 0.0
     private var currentSteps = 0
     private var fotoBase64 = ""
-    private var descricao = ""
 
     // Recebe a URL da foto quando CameraActivity finaliza
     private val cameraLauncher = registerForActivityResult(
@@ -62,19 +51,6 @@ class StartWalkActivity : AppCompatActivity() {
             if (base64.isNotEmpty()) {
                 fotoBase64 = base64
                 Toast.makeText(this, "📷 Foto capturada!", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    // Recebe a URL do áudio e a descrição quando AudioRecordActivity finaliza
-    private val audioLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            val desc = result.data?.getStringExtra(AudioRecordActivity.EXTRA_DESCRICAO) ?: ""
-            if (desc.isNotEmpty()) {
-                descricao = desc
-                Toast.makeText(this, "📝 Descrição: $desc", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -106,7 +82,6 @@ class StartWalkActivity : AppCompatActivity() {
         btnFinalizar = findViewById(R.id.btnFinalizarCaminhada)
         btnAtualizarLocalizacao = findViewById(R.id.btnAtualizarLocalizacao)
         btnTirarFoto = findViewById(R.id.btnTirarFoto)
-        btnGravarAudio = findViewById(R.id.btnGravarAudio)
         btnVoltar = findViewById(R.id.btnVoltarHome)
 
         //estado inicial dos botões de Parar e Finalizar caminhada
@@ -158,10 +133,6 @@ class StartWalkActivity : AppCompatActivity() {
 
         btnTirarFoto.setOnClickListener {
             cameraLauncher.launch(Intent(this, CameraActivity::class.java))
-        }
-
-        btnGravarAudio.setOnClickListener {
-            audioLauncher.launch(Intent(this, AudioRecordActivity::class.java))
         }
 
         btnAtualizarLocalizacao.setOnClickListener {
@@ -250,44 +221,22 @@ class StartWalkActivity : AppCompatActivity() {
         Toast.makeText(this, "Caminhada pausada", Toast.LENGTH_SHORT).show()
     }
 
-    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     private fun finalizarCaminhada() {
         if (isWalking) {
             Toast.makeText(this, "Pare a caminhada antes de finalizar", Toast.LENGTH_SHORT).show()
             return
         }
 
-        locationHelper.getCurrentLocation()
-
-        val user = FirebaseAuthHelper.getCurrentUser()
-        val userId = user?.email ?: run {
-            Toast.makeText(this, "Usuário não logado", Toast.LENGTH_SHORT).show()
-            return
+        // Leva os dados coletados para a tela de finalização, que cuida da
+        // descrição por voz e de salvar no banco.
+        val intent = Intent(this, FinishWalkActivity::class.java).apply {
+            putExtra(FinishWalkActivity.EXTRA_PASSOS, currentSteps)
+            putExtra(FinishWalkActivity.EXTRA_LATITUDE, currentLatitude)
+            putExtra(FinishWalkActivity.EXTRA_LONGITUDE, currentLongitude)
+            putExtra(FinishWalkActivity.EXTRA_FOTO_BASE64, fotoBase64)
         }
-
-        // Cria a caminhada com Base64 e descrição
-        val caminhada = Caminhada(
-            userId = userId,
-            titulo = "Caminhada ${SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date())}",
-            descricao = if (descricao.isNotEmpty()) descricao else "Sem descrição",
-            latitude = currentLatitude,
-            longitude = currentLongitude,
-            quantidadePassos = currentSteps,
-            fotoBase64 = fotoBase64,
-            dataCriacao = Timestamp.now()
-        )
-
-        WalkRepository.salvarCaminhada(caminhada) { sucesso, id ->
-            runOnUiThread {
-                if (sucesso) {
-                    Toast.makeText(this, "✅ Caminhada salva!", Toast.LENGTH_LONG).show()
-                    startActivity(Intent(this, HomeActivity::class.java))
-                    finish()
-                } else {
-                    Toast.makeText(this, "Erro ao salvar: $id", Toast.LENGTH_LONG).show()
-                }
-            }
-        }
+        startActivity(intent)
+        finish()
     }
 
     private fun resetarEstado() {
@@ -296,7 +245,6 @@ class StartWalkActivity : AppCompatActivity() {
         currentLatitude = 0.0
         currentLongitude = 0.0
         fotoBase64 = ""
-        descricao = ""
 
         tvPassos.text = "Passos: 0"
         tvStatus.text = "⏹️ Parado"

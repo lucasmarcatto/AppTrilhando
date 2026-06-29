@@ -125,16 +125,6 @@
             android:textStyle="bold"
             android:textColor="#FFFFFF"
             android:backgroundTint="#1976D2"
-            android:layout_marginBottom="12dp" />
-
-        <Button
-            android:id="@+id/btnConfiguracoes"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="Configurações"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#7B1FA2"
             android:layout_marginBottom="32dp" />
 
         <!-- Logout -->
